@@ -1,24 +1,24 @@
-import cors from "cors";
-import "dotenv/config";
 import express from "express";
-
+import { AppDataSource } from "./data-source.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
-import { notFoundHandler } from "./middlewares/not-found.middleware.js";
-import { healthRouter } from "./routes/health.router.js";
+import { userRouter } from "./routes/user.router.js";
 
 const app = express();
-const PORT = Number(process.env.PORT) || 4000;
-
-app.use(cors());
 app.use(express.json());
 
-app.use("/health", healthRouter);
-
-app.use(notFoundHandler);
+app.use("/users", userRouter);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`API server listening on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 4000;
 
-export { app };
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database connected successfully via TypeORM!");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error during Data Source initialization:", error);
+  });
