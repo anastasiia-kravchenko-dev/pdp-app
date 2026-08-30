@@ -62,6 +62,7 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
 
     if (result.affected === 0) {
       res.status(404).json({ message: "User not found" });
+      return;
     }
 
     // 204 No Content

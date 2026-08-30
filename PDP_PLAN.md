@@ -82,7 +82,7 @@ Groundwork: shell fluency, project scaffolding, database basics, and AI-assisted
 - [ ] Upload/process files using `multer`
 - [ ] Serve static files
 - [ ] Configure and use a template engine
-- [ ] Debug common middleware/request-processing issues
+- [x] Debug common middleware/request-processing issues _(found & fixed a missing `return` in `deleteUserController` that let a 404 response fall through into a second `res.send()` — caught by the new DELETE 404 test)_
 
 ### Setup Express.js Project
 - [x] Initialize a basic Express.js application via npm
@@ -91,8 +91,8 @@ Groundwork: shell fluency, project scaffolding, database basics, and AI-assisted
 - [x] Create controller functions and wire them to routes
 - [ ] Configure global middlewares
 - [x] Parse JSON bodies and implement basic request validation
-- [ ] Run and test the application locally
-- [ ] Debug common routing/middleware issues
+- [x] Run and test the application locally _(verified the app boots, connects to Postgres, and its routes work end-to-end via the Supertest suite)_
+- [x] Debug common routing/middleware issues _(same `deleteUserController` fix above)_
 - [ ] Configure basic API documentation with Swagger
 
 ### SQL / SQL Queries (PostgreSQL)
@@ -211,13 +211,13 @@ Verifying correctness and observability: unit/integration testing, mocking, and 
 
 ### [JS BE] Testing Basics
 - [ ] Understand unit testing fundamentals and its importance
-- [ ] Set up a project with Mocha/Chai or Jest
-- [ ] Write test cases with assertions for basic JS functions
+- [x] Set up a project with Mocha/Chai or Jest _(used Vitest instead — ESM/TS-native, Jest-compatible API; see chat history for the tradeoff. `jest`/`ts-jest` were installed and then removed to avoid running two test runners)_
+- [x] Write test cases with assertions for basic JS functions _(assertions written against the `users` API, not standalone functions — close enough in spirit; revisit if you want pure-function unit tests too)_
 - [ ] Understand mocking/stubbing with Sinon.js; replace real dependencies with mocks/stubs
-- [ ] Write tests for asynchronous code (callbacks, promises, async/await)
-- [ ] Use Supertest to test Express.js routes / RESTful endpoints
-- [ ] Set up a separate test database configuration with Sequelize
-- [ ] Write tests that interact with the database via Sequelize
+- [x] Write tests for asynchronous code (callbacks, promises, async/await)
+- [x] Use Supertest to test Express.js routes / RESTful endpoints
+- [x] Set up a separate test database configuration with Sequelize _(TypeORM, not Sequelize — separate `pdp_test` DB wired via `.env.test` + Vitest `setupFiles`)_
+- [x] Write tests that interact with the database via Sequelize _(via TypeORM against the real `pdp_test` DB in `apps/api/test/user.routes.test.ts`)_
 - [ ] Explore supporting libraries: Faker.js (fake data), Chai-HTTP (HTTP assertions), Nock (mocking HTTP requests)
 
 ### [JS BE] Code Coverage
@@ -228,13 +228,13 @@ Verifying correctness and observability: unit/integration testing, mocking, and 
 - [ ] Know common Node.js coverage tools (`nyc`, Jest coverage)
 - [ ] Understand coverage thresholds and quality gates
 - [ ] Understand limitations/misconceptions of coverage metrics
-- [ ] Generate coverage reports with `nyc` or Jest
-- [ ] Configure coverage collection for the project
-- [ ] Read/analyze reports and identify untested or weakly tested code
+- [x] Generate coverage reports with `nyc` or Jest _(via Vitest's `@vitest/coverage-v8` provider — `npm run test:coverage`)_
+- [x] Configure coverage collection for the project _(`coverage` block in `vitest.config.ts`)_
+- [ ] Read/analyze reports and identify untested or weakly tested code _(report generated — `error.middleware.ts` is the weak spot at ~54%, since only the Zod/HttpError branches are exercised, not the generic 500 path; worth a look before checking this off)_
 - [ ] Configure minimum coverage thresholds
 - [ ] Exclude unnecessary files from coverage reports
-- [ ] Use HTML and LCOV report formats
-- [ ] Improve coverage meaningfully (not with throwaway tests)
+- [x] Use HTML and LCOV report formats _(`reporter: ["text", "html", "lcov"]` in `vitest.config.ts`)_
+- [x] Improve coverage meaningfully (not with throwaway tests) _(87.91% stmts / 93.33% funcs on `apps/api`, from real endpoint behavior tests — not padding)_
 - [ ] Understand how mocking affects coverage results
 - [ ] Debug situations where coverage is reported incorrectly
 

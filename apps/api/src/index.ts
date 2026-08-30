@@ -1,13 +1,5 @@
-import express from "express";
+import { app } from "./app.js";
 import { AppDataSource } from "./data-source.js";
-import { errorHandler } from "./middlewares/error.middleware.js";
-import { userRouter } from "./routes/user.router.js";
-
-const app = express();
-app.use(express.json());
-
-app.use("/users", userRouter);
-app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
 
