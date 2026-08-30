@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source.js";
 import { UserEntity } from "../entities/user.entity.js";
+import { CreateUserInput } from "../schemas/user.schema.js";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(UserEntity);
@@ -12,7 +13,7 @@ export class UserService {
     return await this.userRepository.findOneBy({ id });
   }
 
-  async createUser(data: {name: string; email: string }) {
+  async createUser(data: CreateUserInput) {
     const user = this.userRepository.create(data);
     return await this.userRepository.save(user);
   }
