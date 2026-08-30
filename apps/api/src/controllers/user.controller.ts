@@ -39,6 +39,22 @@ export const createUserController = async (req: Request, res: Response, next: Ne
   }
 }
 
+export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const updatedUser = await userService.updateUser(Number(id), req.body);
+
+    if (!updatedUser) {
+      res.status(404).json({message: "User not found"});
+      return;
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;

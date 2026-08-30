@@ -11,9 +11,9 @@ export const validate =
         params: req.params,
       });
 
-      req.body = parsed.body;
-      req.query = parsed.query as Request["query"];
-      req.params = parsed.params as Request["params"];
+      req.body = parsed.body ?? req.body;
+      req.query = parsed.query as Request["query"] ?? req.query;
+      req.params = parsed.params as Request["params"] ?? req.params;
 
       next();
     } catch (error) {

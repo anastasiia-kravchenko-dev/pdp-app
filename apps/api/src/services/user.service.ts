@@ -1,6 +1,6 @@
 import { AppDataSource } from "../data-source.js";
 import { UserEntity } from "../entities/user.entity.js";
-import { CreateUserInput } from "../schemas/user.schema.js";
+import { CreateUserInput, UpdateUserInput } from "../schemas/user.schema.js";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(UserEntity);
@@ -15,6 +15,16 @@ export class UserService {
 
   async createUser(data: CreateUserInput) {
     const user = this.userRepository.create(data);
+    return await this.userRepository.save(user);
+  }
+
+  async updateUser(id: number, data: UpdateUserInput) {
+    const user = await this.userRepository.preload({id, ...data});
+
+    if (!user) {
+      return null
+    }
+
     return await this.userRepository.save(user);
   }
 

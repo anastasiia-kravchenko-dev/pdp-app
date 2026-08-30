@@ -74,10 +74,10 @@ Groundwork: shell fluency, project scaffolding, database basics, and AI-assisted
 - [ ] Document one example where you rejected an AI suggestion, and why
 
 ### Express.js Basics
-- [ ] Create and use custom Express.js middlewares
+- [x] Create and use custom Express.js middlewares
 - [ ] Understand middleware execution order and request flow
-- [ ] Validate request data using a middleware-based validation library
-- [ ] Configure centralized error handling and consistent API error formatting
+- [x] Validate request data using a middleware-based validation library
+- [x] Configure centralized error handling and consistent API error formatting
 - [ ] Configure CORS using the `cors` package
 - [ ] Upload/process files using `multer`
 - [ ] Serve static files
@@ -85,12 +85,12 @@ Groundwork: shell fluency, project scaffolding, database basics, and AI-assisted
 - [ ] Debug common middleware/request-processing issues
 
 ### Setup Express.js Project
-- [ ] Initialize a basic Express.js application via npm
-- [ ] Create and organize API routes
-- [ ] Handle HTTP request/response objects
-- [ ] Create controller functions and wire them to routes
+- [x] Initialize a basic Express.js application via npm
+- [x] Create and organize API routes
+- [x] Handle HTTP request/response objects
+- [x] Create controller functions and wire them to routes
 - [ ] Configure global middlewares
-- [ ] Parse JSON bodies and implement basic request validation
+- [x] Parse JSON bodies and implement basic request validation
 - [ ] Run and test the application locally
 - [ ] Debug common routing/middleware issues
 - [ ] Configure basic API documentation with Swagger
@@ -131,16 +131,16 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 
 ### Basic BE Application (as a frontend dev leveling up)
 - [ ] Understand the request-response cycle, HTTP methods, status codes, REST API design
-- [ ] Pick a backend framework (NestJS, Express, or Fastify) and learn its core concepts
-- [ ] Implement routing, middleware, request validation, and error handling
+- [x] Pick a backend framework (NestJS, Express, or Fastify) and learn its core concepts
+- [x] Implement routing, middleware, request validation, and error handling
 - [ ] Implement authentication: compare session-based vs token-based (JWT); build login/register and protect routes
-- [ ] Connect to a database (PostgreSQL) and use an ORM/ODM for basic queries
-- [ ] Design and implement CRUD endpoints and data models
+- [x] Connect to a database (PostgreSQL) and use an ORM/ODM for basic queries
+- [x] Design and implement CRUD endpoints and data models _(full Create/Read/Update/Delete done for `users`)_
 - [ ] **Practice deliverable:** build a CRUD app with:
-  - [ ] A chosen Node.js framework
+  - [x] A chosen Node.js framework
   - [ ] Authentication (register, login, protected routes)
-  - [ ] At least 2 CRUD resources (e.g., posts & comments, products & categories)
-  - [ ] Real database read/write operations
+  - [ ] At least 2 CRUD resources (e.g., posts & comments, products & categories) _(only `users` so far)_
+  - [x] Real database read/write operations
 
 ### TypeORM
 - [ ] Understand TypeORM architecture: DataSource, Entity, Repository, EntityManager
@@ -154,8 +154,8 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [ ] Understand common ORM performance pitfalls: N+1 queries, over-fetching
 - [ ] Know when to drop to raw SQL instead of ORM abstractions
 - [ ] Learn TypeORM CLI basics
-- [ ] Set up and configure TypeORM with env-based connection config
-- [ ] Create entities and repositories; implement CRUD via repositories
+- [x] Set up and configure TypeORM with env-based connection config
+- [x] Create entities and repositories; implement CRUD via repositories _(full CRUD implemented for `UserEntity`, including `preload()`+`save()` for partial updates — see [TYPEORM_GUIDE.md](TYPEORM_GUIDE.md))_
 - [ ] Define entity relationships; create custom repositories/services
 - [ ] Use QueryBuilder for complex queries; implement pagination, filtering, sorting
 - [ ] Use eager and explicit relation loading
