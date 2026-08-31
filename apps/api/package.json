@@ -11,7 +11,11 @@
     "check-types": "tsc --noEmit && tsc -p test/tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "typeorm": "typeorm-ts-node-esm -d src/data-source.ts",
+    "migration:generate": "npm run typeorm -- migration:generate src/migrations/InitialMigration",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -33,6 +37,7 @@
     "@types/supertest": "^7.2.1",
     "@vitest/coverage-v8": "^4.1.11",
     "supertest": "^7.2.2",
+    "ts-node": "^10.9.2",
     "tsx": "^4.23.12",
     "typescript": "^5.9.2",
     "vitest": "^4.1.11"
