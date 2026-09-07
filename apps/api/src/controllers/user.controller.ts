@@ -27,18 +27,6 @@ export const getUserByIdController = async (req: Request, res: Response, next: N
   }
 }
 
-export const createUserController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { name, email } = req.body;
-    const newUser = await userService.createUser({name, email});
-
-    res.status(201).json(newUser);
-
-  } catch (error) {
-    next(error);
-  }
-}
-
 export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;

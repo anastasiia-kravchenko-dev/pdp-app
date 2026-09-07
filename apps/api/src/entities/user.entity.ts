@@ -13,4 +13,13 @@ export class UserEntity {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @Column({ type: 'varchar', length: 255 })
+  password!: string;
+
+  @Column({ type: 'boolean', default: false })
+  isVerified!: boolean;
+
+  @Column({ type: "varchar", nullable: true })
+  refreshTokenHash!: string | null;
 }

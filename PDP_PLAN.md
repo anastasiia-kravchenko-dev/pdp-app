@@ -107,7 +107,7 @@ Groundwork: shell fluency, project scaffolding, database basics, and AI-assisted
 - [ ] Explain what a database migration is and why it matters
 - [ ] Give an example of a typical migration
 - [ ] Explain how migrations version-control schema changes
-- [ ] Explain "up" vs "down" migrations
+- [x] Explain "up" vs "down" migrations
 - [ ] Identify migration risks and mitigation strategies
 - [ ] Know common migration tools/libraries
 - [ ] Explain how migrations preserve data integrity
@@ -133,12 +133,12 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [ ] Understand the request-response cycle, HTTP methods, status codes, REST API design
 - [x] Pick a backend framework (NestJS, Express, or Fastify) and learn its core concepts
 - [x] Implement routing, middleware, request validation, and error handling
-- [ ] Implement authentication: compare session-based vs token-based (JWT); build login/register and protect routes
+- [ ] Implement authentication: compare session-based vs token-based (JWT); build login/register and protect routes _(the JWT build itself is done — register/login/refresh/logout + a `requireAuth` middleware protecting routes, see `apps/api/src/{controllers,services,middlewares}/auth.*`; the session-vs-token comparison write-up is still open)_
 - [x] Connect to a database (PostgreSQL) and use an ORM/ODM for basic queries
 - [x] Design and implement CRUD endpoints and data models _(full Create/Read/Update/Delete done for `users`)_
 - [ ] **Practice deliverable:** build a CRUD app with:
   - [x] A chosen Node.js framework
-  - [ ] Authentication (register, login, protected routes)
+  - [x] Authentication (register, login, protected routes)
   - [ ] At least 2 CRUD resources (e.g., posts & comments, products & categories) _(only `users` so far)_
   - [x] Real database read/write operations
 
@@ -160,7 +160,7 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [ ] Use QueryBuilder for complex queries; implement pagination, filtering, sorting
 - [ ] Use eager and explicit relation loading
 - [ ] Create and execute transactions
-- [ ] Create, run, and roll back migrations
+- [x] Create, run, and roll back migrations _(generated, ran, and reverted the auth-fields migration multiple times while consolidating it into one file)_
 - [ ] Create indexes and modify tables/columns via migrations
 - [ ] Implement entity validation and lifecycle hooks
 - [ ] Create computed values via getters/virtual properties
