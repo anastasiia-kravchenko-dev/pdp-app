@@ -1,25 +1,40 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  type Relation,
+  UpdateDateColumn,
+} from "typeorm";
+import { PostEntity } from "./post.entity.js";
 
 @Entity("users")
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: "varchar", length: 255 })
   name!: string;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: "varchar", length: 255, unique: true })
   email!: string;
 
   @CreateDateColumn()
   createdAt!: Date;
 
-  @Column({ type: 'varchar', length: 255 })
+  @UpdateDateColumn()
+  updatedAt!: Date;
+
+  @Column({ type: "varchar", length: 255 })
   password!: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: "boolean", default: false })
   isVerified!: boolean;
 
   @Column({ type: "varchar", nullable: true })
   refreshTokenHash!: string | null;
+
+  @OneToMany(() => PostEntity, (post) => post.user)
+  posts!: Relation<PostEntity[]>;
 }

@@ -19,10 +19,10 @@ export class UserService {
   }
 
   async updateUser(id: number, data: UpdateUserInput) {
-    const user = await this.userRepository.preload({id, ...data});
+    const user = await this.userRepository.preload({ id, ...data });
 
     if (!user) {
-      return null
+      return null;
     }
 
     return await this.userRepository.save(user);

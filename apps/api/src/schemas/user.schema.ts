@@ -11,5 +11,11 @@ export const updateUserSchema = z.object({
   body: createUserSchema.shape.body.partial()
 })
 
+export const userIdParamsSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+});
+
 export type CreateUserInput = z.infer<typeof createUserSchema>["body"];
 export type UpdateUserInput = z.infer<typeof updateUserSchema>["body"];
