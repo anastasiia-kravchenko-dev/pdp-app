@@ -136,10 +136,10 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [ ] Implement authentication: compare session-based vs token-based (JWT); build login/register and protect routes _(the JWT build itself is done — register/login/refresh/logout + a `requireAuth` middleware protecting routes, see `apps/api/src/{controllers,services,middlewares}/auth.*`; the session-vs-token comparison write-up is still open)_
 - [x] Connect to a database (PostgreSQL) and use an ORM/ODM for basic queries
 - [x] Design and implement CRUD endpoints and data models _(full Create/Read/Update/Delete done for `users`)_
-- [ ] **Practice deliverable:** build a CRUD app with:
+- [x] **Practice deliverable:** build a CRUD app with:
   - [x] A chosen Node.js framework
   - [x] Authentication (register, login, protected routes)
-  - [ ] At least 2 CRUD resources (e.g., posts & comments, products & categories) _(only `users` so far)_
+  - [x] At least 2 CRUD resources (e.g., posts & comments, products & categories) _(`users` + `posts`, both with full Create/Read/Update/Delete, ownership checks, and Supertest coverage)_
   - [x] Real database read/write operations
 
 ### TypeORM
@@ -156,7 +156,7 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [ ] Learn TypeORM CLI basics
 - [x] Set up and configure TypeORM with env-based connection config
 - [x] Create entities and repositories; implement CRUD via repositories _(full CRUD implemented for `UserEntity`, including `preload()`+`save()` for partial updates — see [TYPEORM_GUIDE.md](TYPEORM_GUIDE.md))_
-- [ ] Define entity relationships; create custom repositories/services
+- [x] Define entity relationships; create custom repositories/services _(`PostEntity` ⇄ `UserEntity` ManyToOne/OneToMany via `userId`, plus `PostService` mirroring `UserService`'s repository-wrapping pattern)_
 - [ ] Use QueryBuilder for complex queries; implement pagination, filtering, sorting
 - [ ] Use eager and explicit relation loading
 - [ ] Create and execute transactions
