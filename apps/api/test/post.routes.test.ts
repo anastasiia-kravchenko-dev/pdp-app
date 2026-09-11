@@ -94,6 +94,110 @@ describe("Posts API Integration Tests", () => {
     });
   });
 
+  describe("GET /posts", () => {
+    const uniquePrefix = `PagTest_${Date.now()}`;
+    const seedTitles = [
+      `${uniquePrefix} Apple`,
+      `${uniquePrefix} Banana`,
+      `${uniquePrefix} Cherry`,
+      `${uniquePrefix} Date`,
+      `${uniquePrefix} Elderberry`,
+    ];
+
+    beforeAll(async () => {
+      for (const title of seedTitles) {
+        await request(app)
+          .post("/posts")
+          .set("Authorization", authHeader)
+          .send({ title, text: "seed" });
+      }
+    });
+
+    it("filters by title and reports the matching count in meta", async () => {
+      const response = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({ title: uniquePrefix, limit: 100 });
+
+      expect(response.status).toBe(200);
+      expect(response.body.data).toHaveLength(seedTitles.length);
+      expect(response.body.meta.count).toBe(seedTitles.length);
+    });
+
+    it("paginates results with no overlap between pages", async () => {
+      const page1 = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({
+          title: uniquePrefix,
+          page: 1,
+          limit: 2,
+          sortBy: "title",
+          sortOrder: "ASC",
+        });
+
+      const page2 = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({
+          title: uniquePrefix,
+          page: 2,
+          limit: 2,
+          sortBy: "title",
+          sortOrder: "ASC",
+        });
+
+      expect(page1.body.data).toHaveLength(2);
+      expect(page2.body.data).toHaveLength(2);
+      expect(page1.body.meta).toEqual({ page: 1, limit: 2, count: seedTitles.length });
+      expect(page2.body.meta).toEqual({ page: 2, limit: 2, count: seedTitles.length });
+
+      const page1Titles = page1.body.data.map((post: { title: string }) => post.title);
+      const page2Titles = page2.body.data.map((post: { title: string }) => post.title);
+      expect(page1Titles).toEqual([`${uniquePrefix} Apple`, `${uniquePrefix} Banana`]);
+      expect(page2Titles).toEqual([`${uniquePrefix} Cherry`, `${uniquePrefix} Date`]);
+    });
+
+    it("sorts by title descending", async () => {
+      const response = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({ title: uniquePrefix, limit: 100, sortBy: "title", sortOrder: "DESC" });
+
+      const titles = response.body.data.map((post: { title: string }) => post.title);
+      expect(titles).toEqual([...titles].sort().reverse());
+    });
+
+    it("returns an empty data array for an out-of-range page", async () => {
+      const response = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({ title: uniquePrefix, page: 999, limit: 10 });
+
+      expect(response.status).toBe(200);
+      expect(response.body.data).toEqual([]);
+      expect(response.body.meta.count).toBe(seedTitles.length);
+    });
+
+    it("responds with 400 for a sortBy value outside the whitelist", async () => {
+      const response = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({ sortBy: "dropTable" });
+
+      expect(response.status).toBe(400);
+    });
+
+    it("responds with 400 for a limit above the max", async () => {
+      const response = await request(app)
+        .get("/posts")
+        .set("Authorization", authHeader)
+        .query({ limit: 1000 });
+
+      expect(response.status).toBe(400);
+    });
+  });
+
   describe("GET /posts/my", () => {
     it("returns only the authenticated user's posts", async () => {
       await request(app)
@@ -111,15 +215,39 @@ describe("Posts API Integration Tests", () => {
         .set("Authorization", otherAuthHeader);
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(Array.isArray(response.body.data)).toBe(true);
 
-      const titles = response.body.map((post: { title: string }) => post.title);
+      const titles = response.body.data.map((post: { title: string }) => post.title);
       expect(titles).toContain("Other user's post");
       expect(titles).not.toContain("Main user's post");
 
-      for (const post of response.body) {
+      for (const post of response.body.data) {
         expect(post.userId).toBe(otherUserId);
       }
+    });
+
+    it("stays scoped to the authenticated user when filtering by title", async () => {
+      const sharedTitle = `Shared_${Date.now()}`;
+
+      await request(app)
+        .post("/posts")
+        .set("Authorization", authHeader)
+        .send({ title: sharedTitle, text: "mine" });
+
+      await request(app)
+        .post("/posts")
+        .set("Authorization", otherAuthHeader)
+        .send({ title: sharedTitle, text: "theirs" });
+
+      const response = await request(app)
+        .get("/posts/my")
+        .set("Authorization", authHeader)
+        .query({ title: sharedTitle });
+
+      expect(response.status).toBe(200);
+      expect(response.body.meta.count).toBe(1);
+      expect(response.body.data).toHaveLength(1);
+      expect(response.body.data[0].userId).toBe(userId);
     });
   });
 

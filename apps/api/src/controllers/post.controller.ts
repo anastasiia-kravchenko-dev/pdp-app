@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import { postService } from "../services/post.service.js";
+import { GetPostsQuery } from "../schemas/post.schema.js";
 
 export const getAllPostsController = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const posts = await postService.getAllPosts();
+    const posts = await postService.getAllPosts(
+      req.query as unknown as GetPostsQuery,
+    );
 
     res.json(posts);
   } catch (error) {
@@ -21,7 +24,10 @@ export const getUserPostsController = async (
   next: NextFunction,
 ) => {
   try {
-    const post = await postService.getUserPosts(req.userId!);
+    const post = await postService.getUserPosts(
+      req.userId!,
+      req.query as unknown as GetPostsQuery,
+    );
 
     res.json(post);
   } catch (error) {
