@@ -11,6 +11,7 @@ import {
 import { validate } from "../middlewares/validate.middleware.js";
 import {
   createPostSchema,
+  getPostsQuerySchema,
   postIdParamsSchema,
   updatePostSchema,
 } from "../schemas/post.schema.js";
@@ -19,8 +20,8 @@ export const postRouter = Router();
 
 postRouter.use(requireAuth);
 
-postRouter.get("/", getAllPostsController);
-postRouter.get("/my", getUserPostsController);
+postRouter.get("/", validate(getPostsQuerySchema), getAllPostsController);
+postRouter.get("/my", validate(getPostsQuerySchema), getUserPostsController);
 postRouter.get("/:id", validate(postIdParamsSchema), getPostByIdController);
 postRouter.post("/", validate(createPostSchema), createPostController);
 postRouter.patch(

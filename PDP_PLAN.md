@@ -157,7 +157,7 @@ Building real backend capability: a working CRUD app, ORM mastery, caching, tran
 - [x] Set up and configure TypeORM with env-based connection config
 - [x] Create entities and repositories; implement CRUD via repositories _(full CRUD implemented for `UserEntity`, including `preload()`+`save()` for partial updates — see [TYPEORM_GUIDE.md](TYPEORM_GUIDE.md))_
 - [x] Define entity relationships; create custom repositories/services _(`PostEntity` ⇄ `UserEntity` ManyToOne/OneToMany via `userId`, plus `PostService` mirroring `UserService`'s repository-wrapping pattern)_
-- [ ] Use QueryBuilder for complex queries; implement pagination, filtering, sorting
+- [x] Use QueryBuilder for complex queries; implement pagination, filtering, sorting
 - [ ] Use eager and explicit relation loading
 - [ ] Create and execute transactions
 - [x] Create, run, and roll back migrations _(generated, ran, and reverted the auth-fields migration multiple times while consolidating it into one file)_
